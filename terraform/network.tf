@@ -18,6 +18,7 @@ resource "azurerm_subnet" "appgw" {
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.200.1.0/24"]
+  service_endpoints    = ["Microsoft.Storage"]
 }
 
 # Subnet for Synapse Private Endpoints
@@ -26,6 +27,7 @@ resource "azurerm_subnet" "synapse_pe" {
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.200.2.0/24"]
+  service_endpoints    = ["Microsoft.Storage"]
 }
 
 # Subnet for Test VMs (user subnet)
@@ -34,6 +36,7 @@ resource "azurerm_subnet" "vm" {
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.200.3.0/24"]
+  service_endpoints    = ["Microsoft.Storage"]
 }
 
 # Network Security Group for VM subnet

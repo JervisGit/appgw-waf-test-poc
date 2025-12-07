@@ -10,17 +10,19 @@ resource "azurerm_storage_account" "synapse" {
   account_kind             = "StorageV2"
   is_hns_enabled           = true # Data Lake Gen2
 
-  network_rules {
-    default_action = "Deny"
-    bypass         = ["AzureServices"]
-    
-    # Allow from VNet subnets
-    virtual_network_subnet_ids = [
-      azurerm_subnet.synapse_pe.id,
-      azurerm_subnet.vm.id,
-      azurerm_subnet.appgw.id
-    ]
-  }
+  # Note: Network rules are commented out during initial creation to allow Terraform access
+  # Uncomment after initial deployment to restrict access to VNet only
+  # network_rules {
+  #   default_action = "Deny"
+  #   bypass         = ["AzureServices"]
+  #   
+  #   # Allow from VNet subnets
+  #   virtual_network_subnet_ids = [
+  #     azurerm_subnet.synapse_pe.id,
+  #     azurerm_subnet.vm.id,
+  #     azurerm_subnet.appgw.id
+  #   ]
+  # }
 }
 
 # Storage Container for Synapse
@@ -72,7 +74,6 @@ resource "azurerm_synapse_spark_pool" "main" {
   synapse_workspace_id = azurerm_synapse_workspace.main[0].id
   node_size_family     = "MemoryOptimized"
   node_size            = "Small"
-  node_count           = 3
 
   auto_scale {
     max_node_count = 10
